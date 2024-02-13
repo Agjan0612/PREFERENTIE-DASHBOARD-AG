@@ -44,14 +44,15 @@ app.layout = dbc.Container([
             html.H5('Apotheek'),
             dcc.Dropdown(id='selecteer apotheek',                                                   # Input 1: apotheek selectie
                          options=pref['APOTHEEK_pref'].unique(),
-                         value= pref['APOTHEEK_pref'].min(),
-                         style={'textAlign': 'center'})
+                         value= pref['APOTHEEK_pref'].min())
+
         ]),
         dbc.Col([
             html.H5('Verzekeraar'),
             dcc.Dropdown(id='selecteer verzekeraar',                                                # Input 2: Verzekeraar selectie
                          options=pref['ZORGVERZEKERAARS GROEP_pref'].unique(),
                          value=pref['ZORGVERZEKERAARS GROEP_pref'].min())
+
         ]),
         dbc.Col([
             html.H5('Herhaalservice includeren?'),
@@ -76,7 +77,8 @@ app.layout = dbc.Container([
             html.H5('Maand van het jaar'),
             dcc.Dropdown(id='kies een maand-jaar',                                                  # Input 5: Maand selectie
                          options=pref['MAAND-JAAR_pref'].unique(),
-                         value=pref['MAAND-JAAR_pref'].min())
+                         value=pref['MAAND-JAAR_pref'].min(),
+                         )
         ]),
         dbc.Col([], width=3)
     ]),
@@ -149,13 +151,14 @@ def function(apotheek, verzekeraar, herhaalservice, voorraad, maand, top_gemist)
 
 
     mw = pref2.groupby(by=['MAAND-JAAR_pref', 'MW_rec'])['MW_rec'].count().to_frame(name='GEMISTE PREFERENTE VERSTREKKINGEN PER MEDEWERKER').reset_index()
+    mw = mw.sort_values(by=['GEMISTE PREFERENTE VERSTREKKINGEN PER MEDEWERKER'], ascending=False)
 
     grafiek_1_medewerker = px.bar(mw,                                                                                                                   # GRAFIEK 1: in dashboard
                                   x='MW_rec',
                                   y='GEMISTE PREFERENTE VERSTREKKINGEN PER MEDEWERKER',
                                   text_auto=True)
 
-    prod = pref2.groupby(by=['MAAND-JAAR_pref', 'ETIKETNAAM PREF_pref', 'ZI PREF_pref', 'APOTHEEK_pref', 'CF(JA/NEE'])['ETIKETNAAM PREF_pref'].count().to_frame(name='GEMIST PER PREF PRODUCT').reset_index()
+    prod = pref2.groupby(by=['MAAND-JAAR_pref', 'ETIKETNAAM PREF_pref', 'ZI PREF_pref', 'APOTHEEK_pref'])['ETIKETNAAM PREF_pref'].count().to_frame(name='GEMIST PER PREF PRODUCT').reset_index()
 
 
 
