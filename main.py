@@ -117,7 +117,7 @@ app.layout = dbc.Container([
     html.Br(),
     html.Br(),
     dbc.Row([
-        html.H6('De data in dit dashboard bevatten geen: distributierecepten, recepten die contant worden afgerekend of op rekening worden verstrekt aan de patiënt')
+        html.H6('De data (1 jan tm 12 februari 2024) in dit dashboard bevatten geen: distributierecepten, recepten die contant worden afgerekend of op rekening worden verstrekt aan de patiënt')
     ])
 
 ], className='dbc')
